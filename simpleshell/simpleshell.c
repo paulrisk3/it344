@@ -59,7 +59,14 @@ int doCommand(char **ppCmd)
     // is it an internal command "exit" or "cd"?
     if (!strcmp(ppCmd[0], "exit"))
     {
-        exit(1);
+        if(ppCmd[1] == 0)
+        {
+            exit(0);
+        }
+        else
+        {
+            exit(ppCmd[1]);
+        }
     }
     else if (!strcmp(ppCmd[0], "cd"))
     {
@@ -131,14 +138,14 @@ int main(int argc, char* argv[])
             // add code here: what if user just hit enter at the prompt without typing a command
 
             result = doCommand(ppCmd);
-            free(ppCmd);
+            //free(ppCmd);
 
         } // end if
     }while(result == 0);
 
     // free the auto allocated line buffer
     if (line)
-        free(line);
+        //free(line);
 
     return result;
 }
