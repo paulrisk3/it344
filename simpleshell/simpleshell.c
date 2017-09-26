@@ -59,11 +59,19 @@ int doCommand(char **ppCmd)
     // is it an internal command "exit" or "cd"?
     if (!strcmp(ppCmd[0], "exit"))
     {
-        // add code here
+        exit(1);
     }
     else if (!strcmp(ppCmd[0], "cd"))
     {
-        // add code here
+        int check = chdir(ppCmd[1]);
+
+        if (check != 0)
+        {
+            printf("Directory not found\n");
+        }
+        else{
+            chdir(ppCmd[1]);
+        }
     }
     else
     {
@@ -107,25 +115,26 @@ int main(int argc, char* argv[])
     int result = 0;
 
     // add code here: loop till result is non-zero
-    
-    char *dupLine = NULL;
-    printf("IT344Shell> ");
-    ssize_t cc = (ssize_t)getline(&line, &n, stdin);
-    if (line)
-    {
-        char **ppCmd = getCommandLine(line);
-        if (!ppCmd)
+    do{
+        char *dupLine = NULL;
+        printf("IT344Shell> ");
+        ssize_t cc = (ssize_t)getline(&line, &n, stdin);
+        if (line)
         {
-            // getCommandLine failed to allocate memory
-            // add code here: exit the loop
-        }
-        
-        // add code here: what if user just hit enter at the prompt without typing a command
+            char **ppCmd = getCommandLine(line);
+            if (!ppCmd)
+            {
+                // getCommandLine failed to allocate memory
+                // add code here: exit the loop
+            }
+            
+            // add code here: what if user just hit enter at the prompt without typing a command
 
-        result = doCommand(ppCmd);
-        free(ppCmd);
+            result = doCommand(ppCmd);
+            free(ppCmd);
 
-    } // end if
+        } // end if
+    }while(result == 0);
 
     // free the auto allocated line buffer
     if (line)
