@@ -88,7 +88,7 @@ int doCommand(char **ppCmd)
         {
             // child process
             // add code here: change execlp to execvp to include command line arguments
-            execlp(ppCmd[0], "", (char*)0);
+            execvp(ppCmd[0], ppCmd);
 
             // this following instruction will only happens if the exec failed
             printf("exec failed\n");
@@ -138,14 +138,14 @@ int main(int argc, char* argv[])
             // add code here: what if user just hit enter at the prompt without typing a command
 
             result = doCommand(ppCmd);
-            //free(ppCmd);
+            free(ppCmd);
 
         } // end if
     }while(result == 0);
 
     // free the auto allocated line buffer
     if (line)
-        //free(line);
+        free(line);
 
     return result;
 }
