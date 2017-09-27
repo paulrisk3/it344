@@ -52,7 +52,7 @@ char** getCommandLine(const char *line)
     return ppCmd;
 }
 
-int doCommand(char **ppCmd)
+int doCommand(char **ppCmd, int *result)
 {
     pid_t pID;
             
@@ -136,8 +136,12 @@ int main(int argc, char* argv[])
             }
             
             // add code here: what if user just hit enter at the prompt without typing a command
+            if(ppCmd[0] == NULL)
+            {
+                continue;
+            }
 
-            result = doCommand(ppCmd);
+            result = doCommand(ppCmd, &result);
             free(ppCmd);
 
         } // end if
